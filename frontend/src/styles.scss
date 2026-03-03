@@ -1,0 +1,142 @@
+// Angular Material M2 Theme – Alpine Blue (primary: indigo, accent: cyan)
+// Angular Material 17 uses the M2 theming API.
+@use '@angular/material' as mat;
+
+// ──────────────────────────────────────────────────────────
+// Core (required once per app)
+// ──────────────────────────────────────────────────────────
+@include mat.core();
+
+// ──────────────────────────────────────────────────────────
+// Color Palettes
+// ──────────────────────────────────────────────────────────
+$alpine-primary: mat.define-palette(mat.$indigo-palette);
+$alpine-accent:  mat.define-palette(mat.$cyan-palette, A200, A100, A400);
+$alpine-warn:    mat.define-palette(mat.$red-palette);
+
+// ──────────────────────────────────────────────────────────
+// Typography
+// ──────────────────────────────────────────────────────────
+$alpine-typography: mat.define-typography-config(
+  $font-family: 'Roboto, "Helvetica Neue", sans-serif',
+);
+
+// ──────────────────────────────────────────────────────────
+// Light Theme
+// ──────────────────────────────────────────────────────────
+$light-theme: mat.define-light-theme((
+  color: (
+    primary: $alpine-primary,
+    accent:  $alpine-accent,
+    warn:    $alpine-warn,
+  ),
+  typography: $alpine-typography,
+  density: 0,
+));
+
+html {
+  @include mat.all-component-themes($light-theme);
+}
+
+// ──────────────────────────────────────────────────────────
+// Dark Theme (auto via prefers-color-scheme)
+// ──────────────────────────────────────────────────────────
+@media (prefers-color-scheme: dark) {
+  $dark-theme: mat.define-dark-theme((
+    color: (
+      primary: $alpine-primary,
+      accent:  $alpine-accent,
+      warn:    $alpine-warn,
+    ),
+    density: 0,
+  ));
+
+  html {
+    @include mat.all-component-colors($dark-theme);
+  }
+}
+
+// ──────────────────────────────────────────────────────────
+// 8px Grid – CSS Custom Properties
+// ──────────────────────────────────────────────────────────
+:root {
+  --spacing-1: 8px;
+  --spacing-2: 16px;
+  --spacing-3: 24px;
+  --spacing-4: 32px;
+  --spacing-5: 40px;
+  --spacing-6: 48px;
+}
+
+// ──────────────────────────────────────────────────────────
+// Global Base Styles
+// ──────────────────────────────────────────────────────────
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+// ──────────────────────────────────────────────────────────
+// Layout Utilities
+// ──────────────────────────────────────────────────────────
+.page-container {
+  padding: var(--spacing-3);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-spacer {
+  flex: 1 1 auto;
+}
+
+// ──────────────────────────────────────────────────────────
+// Spacing Utilities (8px grid)
+// ──────────────────────────────────────────────────────────
+.mt-1 { margin-top: var(--spacing-1); }
+.mt-2 { margin-top: var(--spacing-2); }
+.mt-3 { margin-top: var(--spacing-3); }
+.mb-1 { margin-bottom: var(--spacing-1); }
+.mb-2 { margin-bottom: var(--spacing-2); }
+.mb-3 { margin-bottom: var(--spacing-3); }
+.ml-1 { margin-left: var(--spacing-1); }
+.ml-2 { margin-left: var(--spacing-2); }
+.mr-1 { margin-right: var(--spacing-1); }
+.mr-2 { margin-right: var(--spacing-2); }
+.p-2  { padding: var(--spacing-2); }
+.p-3  { padding: var(--spacing-3); }
+.gap-2 { gap: var(--spacing-2); }
+.gap-3 { gap: var(--spacing-3); }
+
+// ──────────────────────────────────────────────────────────
+// Component helpers
+// ──────────────────────────────────────────────────────────
+.full-width-table {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-card-actions {
+  display: flex;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-2);
+}
