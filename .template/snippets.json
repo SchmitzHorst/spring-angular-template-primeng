@@ -1,118 +1,92 @@
 {
   "version": "1.0",
-  "framework": "angular-material-m3",
+  "framework": "primeng",
   "angularVersion": "17.3",
 
   "imports": {
-    "description": "Standard Angular Material imports for a typical CRUD component",
+    "description": "Standard PrimeNG imports for a CRUD component",
     "component": [
-      "MatTableModule",
-      "MatPaginatorModule",
-      "MatSortModule",
-      "MatFormFieldModule",
-      "MatInputModule",
-      "MatButtonModule",
-      "MatIconModule",
-      "MatCardModule",
-      "MatSelectModule",
-      "MatToolbarModule",
-      "MatProgressSpinnerModule",
-      "MatSnackBarModule",
-      "MatDialogModule",
-      "MatTooltipModule",
-      "MatDividerModule",
+      "ButtonModule",
+      "InputTextModule",
+      "TableModule",
+      "CardModule",
+      "DialogModule",
+      "ToastModule",
+      "ConfirmDialogModule",
+      "DropdownModule",
+      "CalendarModule",
+      "InputTextareaModule",
       "CommonModule",
       "FormsModule",
       "ReactiveFormsModule"
     ],
     "nav": [
-      "MatToolbarModule",
-      "MatSidenavModule",
-      "MatListModule",
-      "MatIconModule",
-      "MatButtonModule",
+      "MenubarModule",
       "CommonModule",
       "RouterLink",
       "RouterLinkActive"
     ],
     "home": [
-      "MatCardModule",
-      "MatButtonModule",
-      "MatIconModule",
-      "MatGridListModule",
+      "CardModule",
+      "ButtonModule",
       "CommonModule",
       "RouterLink"
     ]
   },
 
   "button": {
-    "primary": "<button mat-raised-button color=\"primary\">Label</button>",
-    "secondary": "<button mat-stroked-button color=\"primary\">Label</button>",
-    "icon": "<button mat-icon-button color=\"primary\" matTooltip=\"Tooltip\"><mat-icon>icon_name</mat-icon></button>",
-    "fab": "<button mat-fab color=\"primary\"><mat-icon>add</mat-icon></button>",
-    "miniFab": "<button mat-mini-fab color=\"primary\"><mat-icon>add</mat-icon></button>"
+    "primary": "<p-button label=\"Label\" severity=\"primary\"></p-button>",
+    "secondary": "<p-button label=\"Label\" severity=\"secondary\"></p-button>",
+    "danger": "<p-button icon=\"pi pi-trash\" severity=\"danger\" [rounded]=\"true\" [text]=\"true\"></p-button>",
+    "icon": "<p-button icon=\"pi pi-pencil\" severity=\"info\" [rounded]=\"true\" [text]=\"true\"></p-button>"
   },
 
   "input": {
-    "text": "<mat-form-field appearance=\"outline\" class=\"full-width\">\n  <mat-label>Label</mat-label>\n  <input matInput [(ngModel)]=\"model.field\" name=\"field\" required>\n  <mat-error>Field is required</mat-error>\n</mat-form-field>",
-    "select": "<mat-form-field appearance=\"outline\" class=\"full-width\">\n  <mat-label>Label</mat-label>\n  <mat-select [(ngModel)]=\"model.field\" name=\"field\" required>\n    <mat-option *ngFor=\"let opt of options\" [value]=\"opt.value\">{{ opt.label }}</mat-option>\n  </mat-select>\n</mat-form-field>",
-    "date": "<mat-form-field appearance=\"outline\" class=\"full-width\">\n  <mat-label>Date</mat-label>\n  <input matInput type=\"date\" [(ngModel)]=\"model.dateField\" name=\"dateField\">\n</mat-form-field>",
-    "textarea": "<mat-form-field appearance=\"outline\" class=\"full-width\">\n  <mat-label>Label</mat-label>\n  <textarea matInput [(ngModel)]=\"model.field\" name=\"field\" rows=\"3\"></textarea>\n</mat-form-field>"
+    "text": "<div class=\"field mb-4\">\n  <label class=\"block font-medium mb-1\">Label</label>\n  <input pInputText type=\"text\" class=\"w-full\" [(ngModel)]=\"model.field\" name=\"field\" required>\n</div>",
+    "select": "<div class=\"field mb-4\">\n  <label class=\"block font-medium mb-1\">Label</label>\n  <p-dropdown [options]=\"options\" [(ngModel)]=\"model.field\" name=\"field\" optionLabel=\"label\" optionValue=\"value\" class=\"w-full\"></p-dropdown>\n</div>",
+    "date": "<div class=\"field mb-4\">\n  <label class=\"block font-medium mb-1\">Date</label>\n  <input pInputText type=\"date\" class=\"w-full\" [(ngModel)]=\"model.dateField\" name=\"dateField\">\n</div>",
+    "textarea": "<div class=\"field mb-4\">\n  <label class=\"block font-medium mb-1\">Label</label>\n  <textarea pInputTextarea class=\"w-full\" [(ngModel)]=\"model.field\" name=\"field\" rows=\"3\"></textarea>\n</div>"
   },
 
   "table": {
-    "description": "mat-table with sort, filter and paginator – replaces Bootstrap table",
-    "typescript": "import { AfterViewInit, ViewChild } from '@angular/core';\nimport { MatTableDataSource } from '@angular/material/table';\nimport { MatPaginator } from '@angular/material/paginator';\nimport { MatSort } from '@angular/material/sort';\n\n// In component class:\ndisplayedColumns: string[] = ['col1', 'col2', 'actions'];\ndataSource = new MatTableDataSource<Entity>();\n\n@ViewChild(MatPaginator) paginator!: MatPaginator;\n@ViewChild(MatSort) sort!: MatSort;\n\nngAfterViewInit(): void {\n  this.dataSource.paginator = this.paginator;\n  this.dataSource.sort = this.sort;\n}\n\napplyFilter(event: Event): void {\n  const filterValue = (event.target as HTMLInputElement).value;\n  this.dataSource.filter = filterValue.trim().toLowerCase();\n}",
-    "html": "<mat-form-field appearance=\"outline\">\n  <mat-label>Filter</mat-label>\n  <input matInput (keyup)=\"applyFilter($event)\" placeholder=\"Search...\">\n  <mat-icon matSuffix>search</mat-icon>\n</mat-form-field>\n\n<div class=\"mat-elevation-z2\">\n  <table mat-table [dataSource]=\"dataSource\" matSort class=\"full-width-table\">\n\n    <!-- Column definition -->\n    <ng-container matColumnDef=\"col1\">\n      <th mat-header-cell *matHeaderCellDef mat-sort-header>Column 1</th>\n      <td mat-cell *matCellDef=\"let row\">{{ row.col1 }}</td>\n    </ng-container>\n\n    <!-- Actions column -->\n    <ng-container matColumnDef=\"actions\">\n      <th mat-header-cell *matHeaderCellDef>Actions</th>\n      <td mat-cell *matCellDef=\"let row\">\n        <button mat-icon-button color=\"primary\" (click)=\"selectForEdit(row)\" matTooltip=\"Edit\">\n          <mat-icon>edit</mat-icon>\n        </button>\n        <button mat-icon-button color=\"warn\" (click)=\"delete(row.id!)\" matTooltip=\"Delete\">\n          <mat-icon>delete</mat-icon>\n        </button>\n      </td>\n    </ng-container>\n\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n    <tr class=\"mat-row\" *matNoDataRow>\n      <td class=\"mat-cell\" [attr.colspan]=\"displayedColumns.length\">No data found.</td>\n    </tr>\n  </table>\n\n  <mat-paginator [pageSizeOptions]=\"[10, 25, 50]\" showFirstLastButtons></mat-paginator>\n</div>"
+    "description": "PrimeNG p-table with paginator, filter, sort",
+    "html": "<p-table [value]=\"items\" [paginator]=\"true\" [rows]=\"10\" [rowsPerPageOptions]=\"[10, 25, 50]\" [sortMode]=\"'multiple'\" styleClass=\"p-datatable-striped\">\n  <ng-template pTemplate=\"header\">\n    <tr>\n      <th pSortableColumn=\"col1\">Column 1 <p-sortIcon field=\"col1\"></p-sortIcon></th>\n      <th>Actions</th>\n    </tr>\n  </ng-template>\n  <ng-template pTemplate=\"body\" let-item>\n    <tr>\n      <td>{{ item.col1 }}</td>\n      <td>\n        <p-button icon=\"pi pi-pencil\" severity=\"info\" [rounded]=\"true\" [text]=\"true\" (click)=\"selectForEdit(item)\"></p-button>\n        <p-button icon=\"pi pi-trash\" severity=\"danger\" [rounded]=\"true\" [text]=\"true\" (click)=\"delete(item.id!)\"></p-button>\n      </td>\n    </tr>\n  </ng-template>\n  <ng-template pTemplate=\"emptymessage\">\n    <tr><td colspan=\"2\">No data found.</td></tr>\n  </ng-template>\n</p-table>"
   },
 
   "card": {
-    "basic": "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Title</mat-card-title>\n    <mat-card-subtitle>Subtitle</mat-card-subtitle>\n  </mat-card-header>\n  <mat-card-content>\n    <!-- content -->\n  </mat-card-content>\n  <mat-card-actions>\n    <button mat-raised-button color=\"primary\">Action</button>\n  </mat-card-actions>\n</mat-card>",
-    "form": "<mat-card>\n  <mat-card-header>\n    <mat-card-title>{{ selectedItem?.id ? 'Edit' : 'New' }} Entity</mat-card-title>\n  </mat-card-header>\n  <mat-card-content>\n    <form #form=\"ngForm\" (ngSubmit)=\"save()\">\n      <!-- mat-form-field inputs here -->\n    </form>\n  </mat-card-content>\n  <mat-card-actions>\n    <button mat-raised-button color=\"primary\" (click)=\"save()\" [disabled]=\"form.invalid\">Save</button>\n    <button mat-stroked-button (click)=\"reset()\">Cancel</button>\n  </mat-card-actions>\n</mat-card>"
-  },
-
-  "dialog": {
-    "open": "const dialogRef = this.dialog.open(ConfirmDialogComponent, {\n  width: '400px',\n  data: { title: 'Confirm Delete', message: 'Are you sure?' }\n});\ndialogRef.afterClosed().subscribe(result => {\n  if (result) { this.performDelete(id); }\n});",
-    "confirmDelete": "// Simpler alternative – browser confirm:\nif (confirm('Delete this item?')) {\n  this.service.delete(id).subscribe(() => this.loadAll());\n}"
-  },
-
-  "snackbar": {
-    "success": "this.snackBar.open('Saved successfully!', 'Close', { duration: 3000, panelClass: 'snack-success' });",
-    "error": "this.snackBar.open('An error occurred.', 'Close', { duration: 5000, panelClass: 'snack-error' });"
+    "basic": "<p-card header=\"Title\" subheader=\"Subtitle\">\n  <p>Content</p>\n  <ng-template pTemplate=\"footer\">\n    <p-button label=\"Action\" severity=\"primary\"></p-button>\n  </ng-template>\n</p-card>",
+    "form": "<p-card [header]=\"(selectedItem?.id ? 'Edit' : 'New') + ' Entity'\">\n  <form #form=\"ngForm\" (ngSubmit)=\"save()\">\n    <!-- field inputs here -->\n    <div class=\"flex gap-2 mt-4\">\n      <p-button type=\"submit\" label=\"Save\" severity=\"primary\" [disabled]=\"form.invalid\"></p-button>\n      <p-button type=\"button\" label=\"Cancel\" severity=\"secondary\" (click)=\"reset()\"></p-button>\n    </div>\n  </form>\n</p-card>"
   },
 
   "navbar": {
-    "description": "mat-toolbar top bar + optional mat-sidenav for navigation",
-    "typescript": "import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';\nimport { MatSidenav } from '@angular/material/sidenav';\n\n@ViewChild('sidenav') sidenav!: MatSidenav;\nisMobile = false;\n\nconstructor(private breakpointObserver: BreakpointObserver) {}\n\nngOnInit(): void {\n  this.breakpointObserver.observe([Breakpoints.Handset])\n    .subscribe(result => {\n      this.isMobile = result.matches;\n      if (!this.isMobile) { this.sidenav.open(); }\n    });\n}",
-    "html": "<mat-sidenav-container class=\"full-height\">\n  <mat-sidenav #sidenav [mode]=\"isMobile ? 'over' : 'side'\" [opened]=\"!isMobile\">\n    <mat-nav-list>\n      <a mat-list-item routerLink=\"/home\" routerLinkActive=\"active\">\n        <mat-icon matListItemIcon>home</mat-icon>\n        <span matListItemTitle>Home</span>\n      </a>\n      <!-- NAV_ITEMS -->\n    </mat-nav-list>\n  </mat-sidenav>\n\n  <mat-sidenav-content>\n    <mat-toolbar color=\"primary\">\n      <button mat-icon-button *ngIf=\"isMobile\" (click)=\"sidenav.toggle()\">\n        <mat-icon>menu</mat-icon>\n      </button>\n      <span>APP_TITLE</span>\n    </mat-toolbar>\n    <div class=\"page-container\">\n      <router-outlet></router-outlet>\n    </div>\n  </mat-sidenav-content>\n</mat-sidenav-container>"
+    "description": "PrimeNG menubar navigation",
+    "html": "<p-menubar [model]=\"menuItems\">\n  <ng-template pTemplate=\"start\">\n    <a routerLink=\"/home\" class=\"text-xl font-bold no-underline text-white\">App</a>\n  </ng-template>\n</p-menubar>"
   },
 
   "listView": {
-    "description": "Full list-view layout: filter + table + paginator + form card side-by-side",
-    "layout": "Two-column layout: left col (~65%) = table, right col (~35%) = form card (hidden when nothing selected)",
-    "html": "<div class=\"page-container\">\n  <div class=\"flex-row mb-2\">\n    <h2>ENTITY_PLURAL</h2>\n    <span class=\"flex-spacer\"></span>\n    <button mat-raised-button color=\"primary\" (click)=\"startCreate()\">\n      <mat-icon>add</mat-icon> New ENTITY\n    </button>\n  </div>\n\n  <div style=\"display: flex; gap: 24px; align-items: flex-start;\">\n\n    <!-- Table column -->\n    <div style=\"flex: 1 1 65%;\">\n      <!-- mat-table snippet here -->\n    </div>\n\n    <!-- Form card column -->\n    <div style=\"flex: 0 0 35%;\" *ngIf=\"selectedItem\">\n      <!-- mat-card form snippet here -->\n    </div>\n\n  </div>\n</div>"
+    "description": "Two-column PrimeNG layout: p-table left, p-card form right",
+    "html": "<div class=\"p-4\">\n  <div class=\"flex align-items-center justify-content-between mb-4\">\n    <h2 class=\"text-3xl font-bold\">ENTITY_PLURAL</h2>\n    <p-button label=\"+ New ENTITY\" severity=\"primary\" *ngIf=\"!selectedItem\" (click)=\"startCreate()\"></p-button>\n  </div>\n  <div class=\"flex gap-4 align-items-start\">\n    <div class=\"flex-1\"><!-- p-table here --></div>\n    <div style=\"width: 35%\" *ngIf=\"selectedItem\"><!-- p-card form here --></div>\n  </div>\n</div>"
   },
 
   "promptHints": {
-    "description": "Rules the AI MUST follow when generating Angular Material components",
+    "description": "Rules the AI MUST follow when generating PrimeNG Angular components",
     "rules": [
-      "ALWAYS use Angular Material components. NEVER use bare HTML elements (<table>, <input>, <button>, <select>).",
-      "Use mat-table with MatTableDataSource, MatPaginator, MatSort for all lists.",
-      "Use mat-form-field with appearance='outline' for all form inputs.",
-      "Use mat-raised-button color='primary' for primary actions, mat-stroked-button for secondary.",
-      "Use mat-icon-button with matTooltip for inline table actions (edit/delete).",
-      "Use mat-card as content container for forms and detail views.",
-      "Use mat-toolbar color='primary' for the navigation bar.",
-      "Spacing: use CSS variables --spacing-1 (8px) through --spacing-6 (48px) or the utility classes (mt-2, mb-3, p-3, gap-2, etc.) from styles.scss.",
-      "Use mat-snack-bar for success/error feedback instead of alert().",
-      "Import only the specific MatXxxModule needed – do NOT import MatLegacyXxxModule.",
+      "ALWAYS use PrimeNG components. NEVER use Bootstrap, Angular Material, or bare unstyled HTML elements.",
+      "Tables: use <p-table [value]=\"items\"> with <ng-template pTemplate=\"header\">, <ng-template pTemplate=\"body\" let-item>, <ng-template pTemplate=\"emptymessage\">.",
+      "Add [paginator]=\"true\" [rows]=\"10\" [rowsPerPageOptions]=\"[10,25,50]\" to p-table.",
+      "Buttons: <p-button label=\"...\" severity=\"primary|secondary|danger|info\"> — NEVER use <button class=\"btn ...\">.",
+      "Icon buttons in table: <p-button icon=\"pi pi-pencil\" severity=\"info\" [rounded]=\"true\" [text]=\"true\"> and <p-button icon=\"pi pi-trash\" severity=\"danger\" [rounded]=\"true\" [text]=\"true\">.",
+      "Form inputs: <input pInputText type=\"text\" class=\"w-full\" [(ngModel)]=\"selectedItem.field\" name=\"field\">",
+      "Labels: <label class=\"block font-medium mb-1\">",
+      "Form group: <div class=\"field mb-4\">",
+      "Card wrapper for forms: <p-card [header]=\"...\">",
+      "Use browser confirm() for delete confirmation.",
       "All components must be standalone: true.",
-      "Use MatTableDataSource for reactive filtering and pagination.",
-      "Apply class='full-width' on mat-form-field inside cards (ensure 100% width).",
-      "Apply class='full-width-table' on mat-table elements.",
-      "Use mat-icon names from Material Icons: https://fonts.google.com/icons",
-      "For delete confirmation: use confirm() browser dialog or mat-dialog – no custom modal HTML.",
-      "NEVER import Angular Material from @angular/material/legacy-* paths."
+      "Import PrimeNG modules in imports array: ButtonModule, InputTextModule, TableModule, CardModule, etc.",
+      "NEVER import Angular Material from @angular/material.",
+      "NEVER use Bootstrap classes (btn, col-md-*, container, row).",
+      "Import primeicons CSS: the icons use class=\"pi pi-pencil\" style.",
+      "PrimeNG 17+ uses standalone component imports."
     ]
   }
 }
